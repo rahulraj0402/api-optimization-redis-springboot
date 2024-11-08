@@ -3,6 +3,7 @@ package com.rahul.optimisedApi.services;
 import com.rahul.optimisedApi.entity.Notes;
 import com.rahul.optimisedApi.repository.NotesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,11 +23,15 @@ public class NotesService {
 
     // get
     public List<Notes> getAll(){
+        System.out.println("getting all function");
         return notesRepo.findAll();
     }
 
 //     get by ID
+
+    @Cacheable(value = "notes",key = "#noteId")
     public Notes getById(String noteId){
+        System.out.println("Fetching note with ID: " + noteId);
         return notesRepo.findById(noteId).orElseThrow(() ->
                 new RuntimeException("note with id : " + noteId + " is not found "));
     }

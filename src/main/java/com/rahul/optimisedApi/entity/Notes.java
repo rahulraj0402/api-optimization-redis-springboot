@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -17,7 +18,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Notes {
+public class Notes implements Serializable {
 
     @Id
     private String id;

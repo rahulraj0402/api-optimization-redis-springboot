@@ -25,7 +25,7 @@ public class NotesController {
     // get notes
     @GetMapping
     public ResponseEntity<List<Notes>> getAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(notesService.getAll());
+        return ResponseEntity.ok(notesService.getAll());
     }
 
     @GetMapping("/{notesId}")
