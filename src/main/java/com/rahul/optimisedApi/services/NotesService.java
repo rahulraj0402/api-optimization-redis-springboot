@@ -3,6 +3,8 @@ package com.rahul.optimisedApi.services;
 import com.rahul.optimisedApi.entity.Notes;
 import com.rahul.optimisedApi.repository.NotesRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ public class NotesService {
     private NotesRepo notesRepo;
 
     // save
+    @CachePut(value = "notes",key = "#notes.id") // using # we can access the notesID of notes that we are crating
     public Notes create(Notes notes){
         notes.setId(UUID.randomUUID().toString());
         return notesRepo.save(notes);
@@ -50,6 +53,7 @@ public class NotesService {
     }
 
     // delete
+    @CacheEvict(value = "notes",key = "#noteId")
     public void delete(String noteId){
         Notes notes1 = notesRepo.findById(noteId).orElseThrow(() ->
                 new RuntimeException("note with id : " + noteId + " is not found "));
